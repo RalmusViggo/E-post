@@ -9,6 +9,8 @@ class LoginSkjema(FlaskForm):
     brukernavn = StringField("Brukernavn")
     passord = PasswordField("Passord")
     epost = StringField("E-Post")
+    favorittfarge = StringField("Favorittfarge")
+    favorittdyr = StringField("Favorittdyr")
     submit = SubmitField("Logg inn")
 
 @app.route("/", methods=["GET", "POST"])
@@ -19,16 +21,18 @@ def index():
         brukernavn = login_skjema.brukernavn.data
         passord = login_skjema.passord.data
         epost = login_skjema.epost.data
+        favorittfarge = login_skjema.favorittfarge.data
+        favorittdyr = login_skjema.favorittdyr.data
         
-        return redirect(url_for("velkommen", brukernavn=brukernavn, epost=epost))
+        return redirect(url_for("velkommen", brukernavn=brukernavn, epost=epost, favorittfarge=favorittfarge, favorittdyr=favorittdyr))
     
     
     
     return render_template("index.html", login_skjema=login_skjema)
 
-@app.route("/velkommen/<brukernavn>/<epost>")
-def velkommen(brukernavn, epost):
-    return render_template("velkomstside.html", brukernavn=brukernavn, epost=epost)
+@app.route("/velkommen/<brukernavn>/<epost>/<favorittfarge>/<favorittdyr>")
+def velkommen(brukernavn, epost, favorittfarge, favorittdyr):
+    return render_template("velkomstside.html", brukernavn=brukernavn, epost=epost, favorittfarge=favorittfarge, favorittdyr=favorittdyr)
 
 if __name__== "__main__":
     app.run()
